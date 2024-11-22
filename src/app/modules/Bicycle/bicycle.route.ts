@@ -4,6 +4,8 @@ import { BicycleController } from './bicycle.controller';
 const router = express.Router()
 
 router.post("/products", BicycleController.createBicycle)
+router.get("/products", BicycleController.findAllBiCycle)
+router.get("/products/:productId", BicycleController.findBiCycleById)
 
 
-export const biCycleRoute = router;
+export const biCycleRoute = router; 

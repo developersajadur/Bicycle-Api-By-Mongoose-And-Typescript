@@ -4,6 +4,8 @@ export type Bicycle = {
     "price": number;
     "type": string;
     "description": string;
-    "quantity": number;
-    "inStock": boolean
+    "quantity": number; 
+    "inStock": boolean;
+    "createdAt"?: string | unknown;
+    "updatedAt"? : string | unknown;
 }
