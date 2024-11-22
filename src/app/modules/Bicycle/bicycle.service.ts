@@ -15,8 +15,20 @@ const getSingleBiCycleById = async (_id: string) => {
     return result;
 }
 
+const updateBiCycleById = async (_id: string, updatedBicycle: Bicycle) => {
+    const result = await BicycleModel.findByIdAndUpdate(_id, {...updatedBicycle, updatedAt: new Date()}, {new: true});
+    return result;
+}
+
+const deleteBiCycleById = async (_id: string) => {
+    const result = await BicycleModel.findByIdAndDelete(_id);
+    return result;
+}
+
 export const BicycleService = {
     createBicycleDb, 
     getAllBiCycle,
     getSingleBiCycleById,
+    updateBiCycleById,
+    deleteBiCycleById
 };
