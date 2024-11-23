@@ -12,7 +12,10 @@ app.use(cors());
 app.use("/api", biCycleRoute)
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.status(200).json({
+    success: true,
+    message: 'Bicycle Server Is Running',
+  });
 });
 
 export default app;
