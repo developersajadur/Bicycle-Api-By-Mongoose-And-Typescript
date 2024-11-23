@@ -6,8 +6,8 @@ const createBicycleDb = async (bicycle : Bicycle) => {
     const result = await BicycleModel.create(bicycle);
     return result;
 }
-const getAllBiCycle = async () => {
-    const result = await BicycleModel.find();
+const getAllBiCycle = async (filter = {}) => {
+    const result = await BicycleModel.find(filter);
     return result;
 }
 const getSingleBiCycleById = async (_id: string) => {
