@@ -21,45 +21,47 @@ const createBicycle = async(req : Request, res: Response) => {
 }
 
 
-// find add product
-const findAllBiCycle = async (req: Request, res: Response) => {
+// find  product
+const findAllBiCycle = async (req: Request, res: Response): Promise<void> => {
     try {
-        const searchTerm = req.query.searchTerm as string;
-  
-        if (!searchTerm) {
-            // If no searchTerm, return all bicycles
-            const result = await BicycleService.getAllBiCycle();
-            return res.status(200).json({
-                success: true,
-                message: "Bicycles retrieved successfully",
-                data: result,
-            });
+        const searchTerm = req.query.searchTerm as string | undefined;
+
+        let filter = {};
+
+        if (searchTerm) {
+            // Search bicycles based on searchTerm
+            filter = {
+                $or: [
+                    { name: { $regex: searchTerm, $options: "i" } },
+                    { brand: { $regex: searchTerm, $options: "i" } },
+                    { type: { $regex: searchTerm, $options: "i" } },
+                ],
+            };
         }
 
-        // Search bicycles based on searchTerm
-        const filter = {
-            $or: [
-                { name: { $regex: searchTerm, $options: "i" } }, 
-                { brand: { $regex: searchTerm, $options: "i" } },
-                { type: { $regex: searchTerm, $options: "i" } },
-            ],
-        };
-
+        // Get bicycles either based on the filter or all
         const bicycles = await BicycleService.getAllBiCycle(filter);
 
-        res.status(200).json({
+         res.status(200).json({
             success: true,
             message: "Bicycles retrieved successfully",
             data: bicycles,
         });
-    } catch (error: any) {
-        res.status(500).json({
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+             res.status(500).json({
+                success: false,
+                message: "Failed to find bicycles. Please try again.",
+                error: error.message || "An unexpected error occurred",
+            });
+        }
+         res.status(500).json({
             success: false,
-            message: "Failed to find bicycles. Please try again.",
-            error: error.message || "An unexpected error occurred",
+            message: "An unknown error occurred.",
         });
     }
 };
+
 // get a single bicycle
 
 const findBiCycleById = async(req : Request, res : Response) => {
@@ -106,7 +108,7 @@ const updateBiCycleById = async(req : Request, res : Response) => {
 const deleteBiCycleById = async(req : Request, res : Response) => {
     try {
         const productId = req.params.productId;
-        const result = await BicycleService.deleteBiCycleById(productId);
+         await BicycleService.deleteBiCycleById(productId);
         res.status(200).json({
             success: true,
             message: 'Bicycle deleted successfully',

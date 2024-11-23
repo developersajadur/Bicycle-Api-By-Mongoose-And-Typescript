@@ -1,7 +1,7 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { biCycleRoute } from './app/modules/Bicycle/bicycle.route';
-const app: Application = express();
+const app = express();
 
 // parsers
 app.use(express.json());
