@@ -12,7 +12,7 @@ const createBicycle = async (req: Request, res: Response) => {
 
     const result = await BicycleService.createBicycleDb(zodParsedData);
 
-    res.status(201).json({
+    res.status(200).json({
       message: 'Bicycle created successfully',
       success: true,
       data: result,
@@ -75,15 +75,13 @@ const findAllBiCycle = async (req: Request, res: Response): Promise<void> => {
       message: 'Bicycles retrieved successfully',
       data: bicycles,
     });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      res.status(500).json({
-        success: false,
-        message: 'Failed to find bicycles. Please try again.',
-        error: error.message || 'An unexpected error occurred',
-      });
-    }
-    res.status(500).json({
+  } catch (error: any) {
+    res.status(404).json({
+      success: false,
+      message: 'Failed to find bicycles. Please try again.',
+      error: error.message || 'An unexpected error occurred',
+    });
+    res.status(404).json({
       success: false,
       message: 'An unknown error occurred.',
     });
@@ -102,7 +100,7 @@ const findBiCycleById = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    res.status(404).json({
       success: false,
       message: 'Failed to find bicycle. Please try again.',
       error: error.message || 'An unexpected error occurred',

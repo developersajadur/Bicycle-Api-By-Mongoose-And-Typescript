@@ -23,7 +23,7 @@ const createBicycle = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         // data validation using zod
         const zodParsedData = bicycle_validation_1.default.parse(BicycleData);
         const result = yield bicycle_service_1.BicycleService.createBicycleDb(zodParsedData);
-        res.status(201).json({
+        res.status(200).json({
             message: 'Bicycle created successfully',
             success: true,
             data: result,
@@ -85,14 +85,12 @@ const findAllBiCycle = (req, res) => __awaiter(void 0, void 0, void 0, function*
         });
     }
     catch (error) {
-        if (error instanceof Error) {
-            res.status(500).json({
-                success: false,
-                message: 'Failed to find bicycles. Please try again.',
-                error: error.message || 'An unexpected error occurred',
-            });
-        }
-        res.status(500).json({
+        res.status(404).json({
+            success: false,
+            message: 'Failed to find bicycles. Please try again.',
+            error: error.message || 'An unexpected error occurred',
+        });
+        res.status(404).json({
             success: false,
             message: 'An unknown error occurred.',
         });
@@ -110,7 +108,7 @@ const findBiCycleById = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     catch (error) {
-        res.status(500).json({
+        res.status(404).json({
             success: false,
             message: 'Failed to find bicycle. Please try again.',
             error: error.message || 'An unexpected error occurred',
