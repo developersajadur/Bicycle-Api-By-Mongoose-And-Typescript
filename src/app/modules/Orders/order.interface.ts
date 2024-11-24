@@ -3,7 +3,6 @@ export type Order = {
   product: string;
   quantity: number;
   totalPrice: number;
-  inStock?: boolean;
   createdAt?: string | unknown;
   updatedAt?: string | unknown;
 };

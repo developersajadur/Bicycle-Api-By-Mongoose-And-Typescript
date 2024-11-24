@@ -1,22 +1,51 @@
 import { Request, Response } from 'express';
 import { BicycleService } from './bicycle.service';
+import BicycleValidationSchema from './bicycle.validation';
+import { z } from 'zod';
 
 // create product
 const createBicycle = async (req: Request, res: Response) => {
   try {
     const BicycleData = await req.body;
-    const result = await BicycleService.createBicycleDb(BicycleData);
-    res.status(200).json({
-      success: true,
+    // data validation using zod
+    const zodParsedData = BicycleValidationSchema.parse(BicycleData);
+
+    const result = await BicycleService.createBicycleDb(zodParsedData);
+
+    res.status(201).json({
       message: 'Bicycle created successfully',
+      success: true,
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: 'Failed to create bicycle. Please try again.',
-      error: error.message || 'An unexpected error occurred',
-    });
+    // Handle validation errors
+    if (error instanceof z.ZodError) {
+      res.status(400).json({
+        message: 'Validation failed',
+        success: false,
+        error: {
+          name: error.name,
+          errors: error.errors.reduce((acc: any, err: any) => {
+            acc[err.path[0]] = {
+              message: err.message,
+              name: 'ValidatorError',
+              properties: {
+                message: err.message,
+              },
+              path: err.path,
+              value: err.input,
+            };
+            return acc;
+          }, {}),
+        },
+      });
+    } else {
+      res.status(500).json({
+        message: 'Something went wrong',
+        success: false,
+        error: error.message,
+      });
+    }
   }
 };
 

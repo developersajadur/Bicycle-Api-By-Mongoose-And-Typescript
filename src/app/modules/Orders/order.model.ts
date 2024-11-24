@@ -7,7 +7,6 @@ const OrderSchema = new Schema<Order>({
   product: { type: String, required: true },
   quantity: { type: Number, required: true },
   totalPrice: { type: Number, required: true },
-  inStock: { type: Boolean },
   createdAt: { type: Date },
   updatedAt: { type: Date },
 });
@@ -19,9 +18,6 @@ OrderSchema.pre<Order>('save', function (next) {
   const order = this;
   order.createdAt = new Date();
   order.updatedAt = new Date();
-  if (order.quantity > 0) {
-    order.inStock = true;
-  } else if (order.quantity >= 0) order.inStock = false;
   next();
 });
 

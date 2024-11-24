@@ -8,26 +8,57 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BicycleController = void 0;
 const bicycle_service_1 = require("./bicycle.service");
+const bicycle_validation_1 = __importDefault(require("./bicycle.validation"));
+const zod_1 = require("zod");
 // create product
 const createBicycle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const BicycleData = yield req.body;
-        const result = yield bicycle_service_1.BicycleService.createBicycleDb(BicycleData);
-        res.status(200).json({
-            success: true,
+        // data validation using zod
+        const zodParsedData = bicycle_validation_1.default.parse(BicycleData);
+        const result = yield bicycle_service_1.BicycleService.createBicycleDb(zodParsedData);
+        res.status(201).json({
             message: 'Bicycle created successfully',
+            success: true,
             data: result,
         });
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'Failed to create bicycle. Please try again.',
-            error: error.message || 'An unexpected error occurred',
-        });
+        // Handle validation errors
+        if (error instanceof zod_1.z.ZodError) {
+            res.status(400).json({
+                message: 'Validation failed',
+                success: false,
+                error: {
+                    name: error.name,
+                    errors: error.errors.reduce((acc, err) => {
+                        acc[err.path[0]] = {
+                            message: err.message,
+                            name: 'ValidatorError',
+                            properties: {
+                                message: err.message,
+                            },
+                            path: err.path,
+                            value: err.input,
+                        };
+                        return acc;
+                    }, {}),
+                },
+            });
+        }
+        else {
+            res.status(500).json({
+                message: 'Something went wrong',
+                success: false,
+                error: error.message,
+            });
+        }
     }
 });
 // find  product
