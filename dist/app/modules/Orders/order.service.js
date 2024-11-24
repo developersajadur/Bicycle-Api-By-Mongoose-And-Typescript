@@ -15,6 +15,14 @@ const createOrderDb = (order) => __awaiter(void 0, void 0, void 0, function* () 
     const result = yield order_model_1.OrderModel.create(order);
     return result;
 });
+const showTotalRevenue = () => __awaiter(void 0, void 0, void 0, function* () {
+    const totalRevenue = yield order_model_1.OrderModel.aggregate([
+        { $group: { _id: null, totalRevenue: { $sum: '$totalPrice' } } },
+        { $project: { _id: 0, totalRevenue: 1 } },
+    ]);
+    return totalRevenue;
+});
 exports.OrderService = {
     createOrderDb,
+    showTotalRevenue,
 };

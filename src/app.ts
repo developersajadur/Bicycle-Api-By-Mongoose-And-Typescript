@@ -8,10 +8,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
 // Routes
-app.use("/api", biCycleRoute)
-app.use("/api", OrderRoute)
+app.use('/api', biCycleRoute);
+app.use('/api', OrderRoute);
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({

@@ -36,5 +36,5 @@ exports.BicycleService = {
     getAllBiCycle,
     getSingleBiCycleById,
     updateBiCycleById,
-    deleteBiCycleById
+    deleteBiCycleById,
 };

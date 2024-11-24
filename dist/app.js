@@ -12,8 +12,8 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // Routes
-app.use("/api", bicycle_route_1.biCycleRoute);
-app.use("/api", order_route_1.OrderRoute);
+app.use('/api', bicycle_route_1.biCycleRoute);
+app.use('/api', order_route_1.OrderRoute);
 app.get('/', (req, res) => {
     res.status(200).json({
         success: true,

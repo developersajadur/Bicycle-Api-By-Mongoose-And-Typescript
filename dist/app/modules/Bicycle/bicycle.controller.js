@@ -39,9 +39,9 @@ const findAllBiCycle = (req, res) => __awaiter(void 0, void 0, void 0, function*
             // Search bicycles based on searchTerm
             filter = {
                 $or: [
-                    { name: { $regex: searchTerm, $options: "i" } },
-                    { brand: { $regex: searchTerm, $options: "i" } },
-                    { type: { $regex: searchTerm, $options: "i" } },
+                    { name: { $regex: searchTerm, $options: 'i' } },
+                    { brand: { $regex: searchTerm, $options: 'i' } },
+                    { type: { $regex: searchTerm, $options: 'i' } },
                 ],
             };
         }
@@ -49,7 +49,7 @@ const findAllBiCycle = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const bicycles = yield bicycle_service_1.BicycleService.getAllBiCycle(filter);
         res.status(200).json({
             success: true,
-            message: "Bicycles retrieved successfully",
+            message: 'Bicycles retrieved successfully',
             data: bicycles,
         });
     }
@@ -57,13 +57,13 @@ const findAllBiCycle = (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (error instanceof Error) {
             res.status(500).json({
                 success: false,
-                message: "Failed to find bicycles. Please try again.",
-                error: error.message || "An unexpected error occurred",
+                message: 'Failed to find bicycles. Please try again.',
+                error: error.message || 'An unexpected error occurred',
             });
         }
         res.status(500).json({
             success: false,
-            message: "An unknown error occurred.",
+            message: 'An unknown error occurred.',
         });
     }
 });
@@ -130,5 +130,5 @@ exports.BicycleController = {
     findAllBiCycle,
     findBiCycleById,
     updateBiCycleById,
-    deleteBiCycleById
+    deleteBiCycleById,
 };

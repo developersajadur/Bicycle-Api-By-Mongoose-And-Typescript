@@ -29,6 +29,25 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
+// showTotalRevenue
+const showTotalRevenue = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const totalRevenue = yield order_service_1.OrderService.showTotalRevenue();
+        res.status(200).json({
+            success: true,
+            message: 'Revenue calculated successfully',
+            data: totalRevenue,
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch total revenue. Please try again.',
+            error: error.message || 'An unexpected error occurred',
+        });
+    }
+});
 exports.OrderController = {
     createOrder,
+    showTotalRevenue,
 };

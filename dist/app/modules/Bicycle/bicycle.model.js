@@ -14,7 +14,7 @@ const BicycleSchema = new mongoose_1.Schema({
     updatedAt: { type: Date },
 });
 // pre middleware
-BicycleSchema.pre("save", function (next) {
+BicycleSchema.pre('save', function (next) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const biCycle = this;
     biCycle.createdAt = new Date();
