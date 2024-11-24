@@ -2,8 +2,7 @@
 
 ## Overview
 
-The Bicycle Shop API is a backend service designed to manage bicycle products, orders, and track total revenue. It allows customers to browse bicycles, create orders, and calculates total revenue from completed orders. The API uses **Express.js**, **MongoDB**, and **Zod** for validation.
-
+The Bicycle Shop API is a backend service designed to manage bicycle products, orders, and track total revenue. It allows customers to browse bicycles, create orders, and calculates total revenue from completed orders. The API uses **Express.js**, **MongoDB**, **Mongoose**, and **Zod** for validation.
 
 ## Features
 
@@ -23,7 +22,6 @@ Ensure you have the following tools installed:
 - **Node.js**: Download and install from [here](https://nodejs.org/).
 - **MongoDB**: You need a MongoDB instance running locally or you can use MongoDB Atlas.
 
-
 ### 1. Clone the Repository
 
 ```bash
@@ -36,7 +34,7 @@ npm install
 3. Configure Environment Variables
 Create a .env file in the root directory and add the following:
 
-env
+.env
 Copy code
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/bicycle_shop
@@ -116,8 +114,9 @@ Copy code
   }
 
 Validation
-We use Zod for data validation. All incoming data is validated using the defined schemas. If any data fails the validation, a descriptive error message is returned.
+I use Zod for data validation. All incoming data is validated using the defined schemas. If any data fails the validation, a descriptive error message is returned.
 
 Error Handling
 If an order fails to meet the validation rules, a 400 status code is returned with detailed error messages.
 If there is a server issue, a 500 status code is returned with an error message.
+```
